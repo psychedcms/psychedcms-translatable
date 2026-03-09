@@ -1,0 +1,38 @@
+{
+    "name": "psychedcms/psychedcms-translatable",
+    "description": "Translatable content support for PsychedCMS - Locale management and translation completeness filtering",
+    "type": "symfony-bundle",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.2",
+        "psychedcms/psychedcms-core": "^1.0 || @dev",
+        "gedmo/doctrine-extensions": "^3.0",
+        "stof/doctrine-extensions-bundle": "^1.12",
+        "symfony/config": "^7.4",
+        "symfony/dependency-injection": "^7.4",
+        "symfony/http-kernel": "^7.4"
+    },
+    "require-dev": {
+        "api-platform/core": "^4.0",
+        "doctrine/orm": "^3.0",
+        "phpunit/phpunit": "^10.0"
+    },
+    "suggest": {
+        "api-platform/core": "Required for translation completeness filtering on API collections"
+    },
+    "autoload": {
+        "psr-4": {
+            "PsychedCms\\Translatable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PsychedCms\\Translatable\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
