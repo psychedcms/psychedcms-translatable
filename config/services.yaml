@@ -15,4 +15,7 @@ services:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     # Translation Completeness Extension (API Platform collection filter)
-    PsychedCms\Translatable\Doctrine\TranslationCompletenessExtension: ~
+    # Disabled: filters out entities without complete translations, which breaks
+    # the admin list view when browsing in a non-default locale.
+    # Re-enable for public-facing APIs that should only show fully translated content.
+    # PsychedCms\Translatable\Doctrine\TranslationCompletenessExtension: ~
