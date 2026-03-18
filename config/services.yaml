@@ -16,3 +16,9 @@ services:
 
     # Translation Completeness Extension (API Platform collection filter)
     PsychedCms\Translatable\Doctrine\TranslationCompletenessExtension: ~
+
+    # Translated slug item provider (decorates Doctrine default)
+    PsychedCms\Translatable\State\TranslatedSlugItemProvider:
+        decorates: 'api_platform.doctrine.orm.state.item_provider'
+        arguments:
+            $decorated: '@.inner'
