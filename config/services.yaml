@@ -17,6 +17,18 @@ services:
     # Translation Completeness Extension (API Platform collection filter)
     PsychedCms\Translatable\Doctrine\TranslationCompletenessExtension: ~
 
+    # Slug fallback: prevent null slugs when Gedmo translatable has no-fallback mode.
+    # Two listeners bracket Gedmo's TranslatableListener (postLoad at priority -10):
+    PsychedCms\Translatable\EventListener\SlugCaptureListener:
+        tags:
+            - { name: doctrine.event_listener, event: postLoad, priority: 0 }
+
+    PsychedCms\Translatable\EventListener\SlugFallbackListener:
+        arguments:
+            $captureListener: '@PsychedCms\Translatable\EventListener\SlugCaptureListener'
+        tags:
+            - { name: doctrine.event_listener, event: postLoad, priority: -20 }
+
     # Translated slug item provider (decorates Doctrine default)
     PsychedCms\Translatable\State\TranslatedSlugItemProvider:
         decorates: 'api_platform.doctrine.orm.state.item_provider'
