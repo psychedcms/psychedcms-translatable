@@ -34,3 +34,9 @@ services:
         decorates: 'api_platform.doctrine.orm.state.item_provider'
         arguments:
             $decorated: '@.inner'
+
+    # Title-required validator: ensures title/name is present when other fields are translated
+    PsychedCms\Translatable\Validator\TranslationTitleRequiredValidator:
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
