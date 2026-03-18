@@ -29,6 +29,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postLoad, priority: -20 }
 
+    # DBAL Middleware: converts ULID base32 → UUID in SQL parameters (fixes Gedmo)
+    PsychedCms\Translatable\DBAL\UlidConversionMiddleware:
+        tags:
+            - { name: doctrine.middleware, connection: default }
+
     # Translated slug item provider (decorates Doctrine default)
     PsychedCms\Translatable\State\TranslatedSlugItemProvider:
         decorates: 'api_platform.doctrine.orm.state.item_provider'
