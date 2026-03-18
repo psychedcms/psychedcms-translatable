@@ -86,7 +86,9 @@ final class TranslationTitleRequiredValidator
 
     /**
      * For a single non-default locale, check whether any content field has
-     * a translation. If so, require that at least one title field also does.
+     * a translation. If so, require that at least one title field also has
+     * content — either translated in this locale or present in the default
+     * locale (DB column value) as a fallback.
      *
      * @param list<string> $contentFields
      * @param list<string> $titleFields
@@ -112,10 +114,23 @@ final class TranslationTitleRequiredValidator
             return;
         }
 
-        // At least one title field must have content.
+        // At least one title field must have content in this locale.
         foreach ($titleFields as $titleField) {
             if (in_array($titleField, $translatedFieldsWithContent, true)) {
                 return;
+            }
+        }
+
+        // Fallback: check if the default locale has a title/name value in the DB column.
+        // When name="1000mods" in FR and no EN translation exists, the FR value is the fallback.
+        $reflection = new ReflectionClass($entity);
+        foreach ($titleFields as $titleField) {
+            if ($reflection->hasProperty($titleField)) {
+                $property = $reflection->getProperty($titleField);
+                $value = $property->getValue($entity);
+                if ($this->hasContent($value)) {
+                    return;
+                }
             }
         }
 
